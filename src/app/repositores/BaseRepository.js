@@ -46,20 +46,21 @@ export class BaseRepository {
     async delete (req, res, id) {
         return new Promise((resolve) => {
             return this.model
-                .findById(req.params.id)
+                .findById(id)
                 .then((data) => {
-                    resolve(data)
 
-
-                    // if (!classroom) {
-                    //     return res.status(400).send({
-                    //         message: 'Classroom Not Found',
-                    //     });
-                    // }
-                    // return classroom
-                    //     .destroy()
-                    //     .then(() => res.status(204).send())
-                    //     .catch((error) => res.status(400).send(error));
+                    if (!data || data == null) {
+                        resolve(data);
+                        return;
+                    }
+                    
+                    data
+                    .destroy()
+                    .then(() => {
+                        resolve()
+                    }).catch((err) => {
+                        errorHandler(err, req, res)
+                    });
 
                 })
                 .catch((err) => {
