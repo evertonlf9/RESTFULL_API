@@ -7,6 +7,29 @@ import UserRepository from '../repositores/UserRepository';
 class UserController {
     constructor(){}
 
+    /**
+     * @api {post} /users Create User
+     * @apiGroup Users
+     * @apiSuccess {Object[]} users User's list
+     * @apiParam {String} user.name User title
+     * @apiParam {String} user.cpf User cpf
+     * @apiParam {String} user.email User email
+     * @apiParam {String} user.password User password
+     * @apiParam {String} user.theme User theme
+     * @apiParam {String} user.locale User locale
+     * @apiParamExample {json} Success
+     *    HTTP/1.1 200 OK
+     *    [{
+     *      "name": "users",
+     *      "cpf": "111.111.111-11",
+     *      "email": "user@api.com",
+     *      "password": "123456",
+     *      "theme": "default",
+     *      "locale": "pt-br"
+     *    }]
+     * @apiErrorExample {json} List error
+     *    HTTP/1.1 500 Internal Server Error
+     */
     create(req, res){
 
     // const Entry = sequelize.define('Users', {
@@ -44,27 +67,64 @@ class UserController {
 
         const data = {...req.body, active: true};
 
-        return userRepository.create(req, res, data)
+        return UserRepository.create(req, res, data)
             .then((data) => res.status(200).send(data));
     }
 
     /**
-     * @api {get} /tasks List all tasks
-     * @apiGroup Tasks
-     * @apiSuccess {Object[]} tasks Task's list
-     * @apiSuccess {Number} tasks.id Task id
-     * @apiSuccess {String} tasks.title Task title
-     * @apiSuccess {Boolean} tasks.done Task is done?
-     * @apiSuccess {Date} tasks.updated_at Update's date
-     * @apiSuccess {Date} tasks.created_at Register's date
+     * @api {get} /users List all users
+     * @apiGroup Users
+     * @apiSuccess {Object[]} users User's list
+     * @apiSuccess {String} user.id User id
+     * @apiSuccess {String} user.name User title
+     * @apiSuccess {String} user.cpf User cpf
+     * @apiSuccess {String} user.email User email
+     * @apiSuccess {String} user.password User password
+     * @apiSuccess {String} user.theme User theme
+     * @apiSuccess {String} user.locale User locale
+     * @apiSuccess {String} user.active User active
+     * @apiSuccess {Date} user.updated_at Update's date
+     * @apiSuccess {Date} user.created_at Register's date
      * @apiSuccessExample {json} Success
      *    HTTP/1.1 200 OK
      *    [{
-     *      "id": 1,
-     *      "title": "Study",
-     *      "done": false
+     *      "id": "171aa983-1c8f-4e3a-a3b7-ecc87d7c744f",
+     *      "name": "users",
+     *      "cpf": "111.111.111-11",
+     *      "email": "user@api.com",
+     *      "password": "123456",
+     *      "theme": "default",
+     *      "locale": "pt-br",
+     *      "active": "true",
      *      "updated_at": "2016-02-10T15:46:51.778Z",
      *      "created_at": "2016-02-10T15:46:51.778Z"
+     *    }]
+     * @apiErrorExample {json} List error
+     *    HTTP/1.1 500 Internal Server Error
+     */
+    /**
+     * @api {get} /users/:search Search for one or more users in the list
+     * @apiGroup Users
+     * @apiSuccess {Object[]} users User's list
+     * @apiSuccess {String} user.id User id
+     * @apiSuccess {String} user.name User title
+     * @apiSuccess {String} user.cpf User cpf
+     * @apiSuccess {String} user.email User email
+     * @apiSuccess {String} user.password User password
+     * @apiSuccess {String} user.theme User theme
+     * @apiSuccess {String} user.locale User locale
+     * @apiSuccess {String} user.active User active
+     * @apiSuccessExample {json} Success
+     *    HTTP/1.1 200 OK
+     *    [{
+     *      "id": 171aa983-1c8f-4e3a-a3b7-ecc87d7c744f,
+     *      "name": "users",
+     *      "cpf": "111.111.111-11",
+     *      "email": "user@api.com",
+     *      "password": "123456",
+     *      "theme": "default",
+     *      "locale": "pt-br",
+     *      "active": "true"
      *    }]
      * @apiErrorExample {json} List error
      *    HTTP/1.1 500 Internal Server Error
@@ -80,43 +140,91 @@ class UserController {
         return UserRepository.findAll(req, res, query)
             .then((data) => res.status(200).send(data));
     }
+
     /**
-     * @api {get} /tasks/:id Find a task
-     * @apiGroup Tasks
-     * @apiParam {id} id Task id
-     * @apiSuccess {Number} id Task id
-     * @apiSuccess {String} title Task title
-     * @apiSuccess {Boolean} done Task is done?
-     * @apiSuccess {Date} updated_at Update's date
-     * @apiSuccess {Date} created_at Register's date
+     * @api {get} /users/getById/:id Find user by id
+     * @apiGroup Users
+     * @apiSuccess {Object[]} users User's list
+     * @apiSuccess {String} user.id User id
+     * @apiSuccess {String} user.name User title
+     * @apiSuccess {String} user.cpf User cpf
+     * @apiSuccess {String} user.email User email
+     * @apiSuccess {String} user.password User password
+     * @apiSuccess {String} user.theme User theme
+     * @apiSuccess {String} user.locale User locale
+     * @apiSuccess {String} user.active User active
+     * @apiSuccess {Date} user.updated_at Update's date
+     * @apiSuccess {Date} user.created_at Register's date
      * @apiSuccessExample {json} Success
      *    HTTP/1.1 200 OK
-     *    {
-     *      "id": 1,
-     *      "title": "Study",
-     *      "done": false
+     *    [{
+     *      "id": 171aa983-1c8f-4e3a-a3b7-ecc87d7c744f,
+     *      "name": "users",
+     *      "cpf": "111.111.111-11",
+     *      "email": "user@api.com",
+     *      "password": "123456",
+     *      "theme": "default",
+     *      "locale": "pt-br",
+     *      "active": "true",
      *      "updated_at": "2016-02-10T15:46:51.778Z",
      *      "created_at": "2016-02-10T15:46:51.778Z"
-     *    }
-     * @apiErrorExample {json} Task not found
+     *    }]
+     * @apiErrorExample {json} Users not found
      *    HTTP/1.1 404 Not Found
      * @apiErrorExample {json} Find error
      *    HTTP/1.1 500 Internal Server Error
      */
     getById(req, res){
-        return userRepository.getById(req, res, req.params.userId)
+        return UserRepository.findById(req, res, req.params.userId)
             .then((data) => res.status(200).send(data));
     }
 
+    /**
+     * @api {put} /users/:id  Update the list of users
+     * @apiGroup Users
+     * @apiParam {Object[]} users User's list
+     * @apiParam {String} user.id User id
+     * @apiParam {String} user.name User title
+     * @apiParam {String} user.cpf User cpf
+     * @apiParam {String} user.email User email
+     * @apiParam {String} user.password User password
+     * @apiParam {String} user.theme User theme
+     * @apiParam {String} user.locale User locale
+     * @apiParamExample {json} Success
+     *    HTTP/1.1 200 OK
+     *    [{
+     *      "id": "171aa983-1c8f-4e3a-a3b7-ecc87d7c744f",
+     *      "name": "users",
+     *      "cpf": "111.111.111-11",
+     *      "email": "user@api.com",
+     *      "password": "123456",
+     *      "theme": "default",
+     *      "locale": "pt-br"
+     *    }]
+     * @apiErrorExample {json} List error
+     *    HTTP/1.1 500 Internal Server Error
+     */
     update(req, res){
-        return userRepository.update(req, res, req.params.userId)
+        return UserRepository.update(req, res, req.body, req.params.userId)
             .then((data) => res.status(200).send(data));
     }
 
+    /**
+     * @api {post} /users/:id  Delete a user from the list
+     * @apiGroup Users
+     * @apiParam {Object[]} users User's list
+     * @apiParam {String} user.id User id
+     * @apiParamExample {json} Success
+     *    HTTP/1.1 200 OK
+     *    [{
+     *      "id": "171aa983-1c8f-4e3a-a3b7-ecc87d7c744f"
+     *    }]
+     * @apiErrorExample {json} List error
+     *    HTTP/1.1 500 Internal Server Error
+     */
     delete(req, res){
-        return userRepository.delete(req, res, req.params.userId)
+        return UserRepository.delete(req, res, req.params.userId)
             .then((data) => res.status(200).send(data));
     }
 }
-
 export default new UserController();

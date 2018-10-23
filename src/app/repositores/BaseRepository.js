@@ -11,7 +11,7 @@ export class BaseRepository {
 
         this.create = this.create.bind(this);
         this.findAll = this.findAll.bind(this);
-        this.getById = this.getById.bind(this);
+        this.findById = this.findById.bind(this);
         this.update = this.update.bind(this);
         this.delete = this.delete.bind(this);
         this.query = this.query.bind(this);
@@ -30,10 +30,10 @@ export class BaseRepository {
         });
     }
 
-    async update(req, res, data) {
+    async update(req, res, data, id) {
         return new Promise((resolve) => {
             return this.model
-                .update(data)
+                .update(data, {where: {id:id}})
                 .then((data) => {
                     resolve(data)
                 })
@@ -43,12 +43,24 @@ export class BaseRepository {
         });
     };
 
-    async delete (req, res, data) {
+    async delete (req, res, id) {
         return new Promise((resolve) => {
             return this.model
-                .delete(data)
+                .findById(req.params.id)
                 .then((data) => {
                     resolve(data)
+
+
+                    // if (!classroom) {
+                    //     return res.status(400).send({
+                    //         message: 'Classroom Not Found',
+                    //     });
+                    // }
+                    // return classroom
+                    //     .destroy()
+                    //     .then(() => res.status(204).send())
+                    //     .catch((error) => res.status(400).send(error));
+
                 })
                 .catch((err) => {
                     errorHandler(err, req, res)
@@ -69,10 +81,11 @@ export class BaseRepository {
         });
     };
 
-    async getById(req, res, id) {
+    async findById(req, res, id) {
+
         return new Promise((resolve) => {
             this.model
-                .getById(id)
+                .findById(id)
                 .then((data) => {
                     resolve(data)
                 })
