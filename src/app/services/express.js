@@ -15,7 +15,7 @@ const secret = 'teste1';
 
 app.set('superSecret', secret);
 // view engine setup
-app.set('views', path.join(__dirname, './app/views'));
+app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
@@ -27,7 +27,8 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json', extended: true, limi
 app.use(bodyParser.urlencoded({extended: false, limit: '100mb'  }));
 
 app.use(methodOverride('X-HTTP-Method-Override'));
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 app.use(cors());
 app.options('*', cors(corsOptions));
@@ -59,7 +60,8 @@ app.get('/', (req, res) => {
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  next(createError(404));
+  res.render('error', { error: '404', message: 'Page not found'});
+  // next(createError(404));
 });
 
 export default app;
