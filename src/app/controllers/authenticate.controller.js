@@ -19,7 +19,7 @@ class Auth {
         res.json({key: 'help'});
     }
 
-    use(req, res){
+    use(req, res, next){ 
         next();
     }
 }

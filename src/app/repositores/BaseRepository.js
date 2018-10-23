@@ -97,4 +97,4 @@ export class BaseRepository {
     }
 }
 
-export default new BaseRepository();
+export default BaseRepository;

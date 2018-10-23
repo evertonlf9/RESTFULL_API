@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import app from './app';
+import app from './app/services/express';
 import http from 'http';
 const debug = require('debug')('API:server');
 

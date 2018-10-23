@@ -1,13 +1,13 @@
 /**
  * Created by everton on 18/10/2018.
  */
-import User from '../../migrates/dbStartMigrate/models/user';
+import Model from '../../migrates/dbStartMigrate/models';
 import BaseRepository from '../repositores/BaseRepository';
 
 export class UserRepository extends BaseRepository {
     constructor() {
-        super(User);
+        super(Model.User);
     }
 }
 
-export default new UserRepository()
+export default new UserRepository

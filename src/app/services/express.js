@@ -5,8 +5,8 @@ import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import logger from 'morgan';
 import cors from 'cors';
-import corsOptions from './config/cors.config';
-import indexRouter from './app/routes/index';
+import corsOptions from './../../config/cors.config.js';
+import indexRouter from './../routes';
 
 const path = require('path');
 
